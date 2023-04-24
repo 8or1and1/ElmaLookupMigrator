@@ -11,13 +11,14 @@ class LookupMigrator:
     def get_data_from_source(self):
         self.data = self.elma_from.get_data()
 
-    def filter_data(self, field_name, value):
+    def filter_data(self, field_name, values):
         new_data = []
-        for data_unit in self.data:
-            if field_name not in data_unit:
-                raise NameError("Таблица не имеет колонки {}".format(field_name))
-            if value in data_unit[field_name]:
-                new_data.append(data_unit)
+        for value in values:
+            for data_unit in self.data:
+                if field_name not in data_unit:
+                    raise NameError("Таблица не имеет колонки {}".format(field_name))
+                if value in data_unit[field_name]:
+                    new_data.append(data_unit)
         self.data = new_data
 
     def clean_data(self, field_name, value=''):

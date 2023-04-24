@@ -9,7 +9,12 @@ for lookup_name in lookup_names:
     print(lookup_name)
     lookup_name_migrator = migrator('_system_catalogs', lookup_name, config.elma_from_config, config.elma_client_config)
     lookup_name_migrator.get_data_from_source()
-    lookup_name_migrator.filter_data("Code", "Notification")
-    lookup_name_migrator.clean_data("StringValue", None)
+    lookup_name_migrator.filter_data("Code", ["NotificationTemplateToCreateReturnDestionationFullPhoneEmpty",
+                                              'NotificationTemplateToCreateReturnDestinationFullPhoneFull',
+                                              'NotificationTemplateToCreateOutgoingDocument',
+                                              'NotificationTemplateToCreateIncomingDocument',
+                                              'NotificationTemplateToCreateReturnDestinationEmptyPhoneEmpty',
+                                              'NotificationTemplateToCreateReturnDestinationEmptyPhoneFull'])
+    #lookup_name_migrator.clean_data("StringValue", None)
     lookup_name_migrator.put_data_in_destination()
     time.sleep(3)
