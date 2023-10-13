@@ -22,8 +22,8 @@ class elmaConnector:
         column_names = [x for x in response.json()["result"]["result"][0].keys()]
         return column_names
 
-    def get_data(self):
-        payload = {"size": 100, "active": True}
+    def get_data(self, from_param = 0):
+        payload = {"size": 100, "active": True, "from": from_param}
         response = self.api_request('list', payload)
         #column_names = [x for x in response.json()["result"]["result"][0].keys()]
         data = [x for x in response.json()["result"]["result"]]

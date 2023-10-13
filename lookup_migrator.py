@@ -5,11 +5,14 @@ class LookupMigrator:
     def __init__(self, elma_namespace, elma_code, elma_from_config, elma_to_config):
         self.elma_columns = None
         self.data = None
+        self.filtered_codes = []
         self.elma_from = elmaConnector(elma_from_config, elma_namespace, elma_code)
         self.elma_to = elmaConnector(elma_to_config, elma_namespace, elma_code)
 
     def get_data_from_source(self):
-        self.data = self.elma_from.get_data()
+        self.data = self.elma_from.get_data(from_param=0)
+        self.data += self.elma_from.get_data(from_param=99)
+        self.data += self.elma_from.get_data(from_param=188)
 
     def filter_data(self, field_name, values):
         new_data = []
@@ -19,6 +22,7 @@ class LookupMigrator:
                     raise NameError("Таблица не имеет колонки {}".format(field_name))
                 if value in data_unit[field_name]:
                     new_data.append(data_unit)
+                    self.filtered_codes.append(data_unit[field_name])
         self.data = new_data
 
     def clean_data(self, field_name, value=''):
